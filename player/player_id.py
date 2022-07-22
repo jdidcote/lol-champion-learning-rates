@@ -40,6 +40,7 @@ class PlayerIds:
         last_match_id = watcher.match.matchlist_by_puuid(
             region=self.region,
             puuid=puuid,
+            start=20,
             count=1
         )[0]
 
@@ -64,9 +65,11 @@ class PlayerIds:
             self.load_puuids()
 
         n_players_found = 0
+        checked_puuids = []
 
         while n_players_found <= n_puuids:
-            puuid = self.puuids.iloc[-1]["puuid"]
+            puuid = self.puuids[~self.puuids["puuid"].isin(checked_puuids)].iloc[-1]["puuid"]
+            checked_puuids.append(puuid)
 
             # Get puuids of players last played with
             new_puuids = self._match_puuids_single_game(watcher, puuid)
@@ -78,5 +81,6 @@ class PlayerIds:
             n_players_found += new_rows["puuid"].nunique() - 1
 
         print(f"{n_players_found} new players found. Writing to database...")
+        self.puuids.to_csv(self.file_path, index=False)
 
         return
