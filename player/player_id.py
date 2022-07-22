@@ -1,17 +1,19 @@
+from typing import List
+
 from riotwatcher import LolWatcher
 
 
-class PlayerIdSearch:
+class FindInitialPuuids:
     """
     Finds unique puuids seeded from the initial puuid
     """
-    def __init__(self, api_key: str, initial_puuid: str, region: str):
+    def __init__(self, api_key: str, initial_puuid: List[str], region: str):
         """
         :param initial_puuid: Initial puuid to start player search
         :param region: League region
         """
         self._initial_puuid = initial_puuid
-        self.puuids = [initial_puuid]
+        self.puuids = initial_puuid
         self.watcher = LolWatcher(api_key)
         self.region = region
 
