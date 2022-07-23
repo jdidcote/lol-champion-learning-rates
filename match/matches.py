@@ -35,8 +35,8 @@ def get_match_history_statistics(
     # Loop through matches
     for match_id in match_ids:
 
-        # if match_id in observed_match_ids:
-        #     continue
+        if match_id in observed_match_ids:
+            continue
         observed_match_ids.append(match_id)
 
         match_summary = watcher.match.by_id(region, match_id)
